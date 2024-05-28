@@ -1,4 +1,4 @@
-package com.novatech.novamovies.data
+package com.novatech.novamovies.data.model
 
 import com.google.gson.annotations.SerializedName
 

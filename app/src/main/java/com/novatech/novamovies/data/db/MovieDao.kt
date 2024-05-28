@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.novatech.novamovies.data.Movie
+import com.novatech.novamovies.data.model.Movie
 
 @Dao
 interface MovieDao {
@@ -16,7 +16,7 @@ interface MovieDao {
     suspend fun deleteAllMovies()
 
     @Query("select * from popular_movies")
-    suspend fun getAllMovies()
-    
+    suspend fun getAllMovies() : List<Movie>
+
 
 }
