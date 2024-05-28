@@ -1,6 +1,6 @@
-package com.novatech.novamovies.data.domain.usecases
+package com.novatech.novamovies.domain.usecases
 
-import com.novatech.novamovies.data.domain.repository.MovieRepository
+import com.novatech.novamovies.domain.repository.MovieRepository
 import com.novatech.novamovies.data.model.Movie
 
 class GetMoviesUseCase(private val movieRepository: MovieRepository) {

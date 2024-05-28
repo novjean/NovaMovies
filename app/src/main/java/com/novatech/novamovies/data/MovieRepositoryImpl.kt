@@ -3,7 +3,7 @@ package com.novatech.novamovies.data
 import com.novatech.novamovies.data.datasource.MovieCacheDataSource
 import com.novatech.novamovies.data.datasource.MovieLocalDataSource
 import com.novatech.novamovies.data.datasource.MovieRemoteDataSource
-import com.novatech.novamovies.data.domain.repository.MovieRepository
+import com.novatech.novamovies.domain.repository.MovieRepository
 import com.novatech.novamovies.data.model.Movie
 import java.lang.Exception
 
@@ -19,6 +19,11 @@ class MovieRepositoryImpl(
 
     override suspend fun updateMovies(): List<Movie>? {
         val newListOfMovies = getMoviesFromApi()
+
+        movieLocalDataSource.clearAll()
+        movieLocalDataSource.saveMoviesToDb(newListOfMovies)
+        movieCacheDataSource.saveMoviesToCache(newListOfMovies)
+        return newListOfMovies
     }
 
     suspend fun getMoviesFromApi(): List<Movie> {
@@ -55,7 +60,21 @@ class MovieRepositoryImpl(
         return movieList
     }
 
-    private fun getMoviesFromCache(): List<Movie>? {
-        
+    private suspend fun getMoviesFromCache(): List<Movie>? {
+        lateinit var movieList : List<Movie>
+
+        try{
+            movieList = movieCacheDataSource.getMoviesFromCache()
+        } catch(exception:Exception){
+
+        }
+
+        if(movieList.size>0){
+            return movieList
+        }else{
+            movieList = getMoviesFromRoom()
+            movieCacheDataSource.saveMoviesToCache(movieList)
+        }
+        return movieList
     }
 }
