@@ -1,4 +1,4 @@
-package com.novatech.novamovies.data.domain
+package com.novatech.novamovies.data.domain.repository
 
 import com.novatech.novamovies.data.model.Movie
 
