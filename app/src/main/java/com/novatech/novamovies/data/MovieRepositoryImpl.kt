@@ -38,7 +38,24 @@ class MovieRepositoryImpl(
         return movieList
     }
 
-    private fun getMoviesFromCache(): List<Movie>? {
+    suspend fun getMoviesFromRoom() : List<Movie> {
+        lateinit var movieList: List<Movie>
+        try{
+            movieList = movieLocalDataSource.getMoviesFromDb()
+        } catch(exception: Exception){
 
+        }
+
+        if(movieList.size>0){
+            return movieList
+        } else {
+            movieList = getMoviesFromApi()
+            movieLocalDataSource.saveMoviesToDb(movieList)
+        }
+        return movieList
+    }
+
+    private fun getMoviesFromCache(): List<Movie>? {
+        
     }
 }
